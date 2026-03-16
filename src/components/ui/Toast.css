@@ -1,0 +1,109 @@
+.toast-container {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.toast-card {
+  pointer-events: auto;
+  min-width: 320px;
+  max-width: 450px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: toastSlideIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 0.3s ease;
+}
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(50px) scale(0.9); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.toast-card.closing {
+  opacity: 0;
+  transform: translateX(30px) scale(0.9);
+}
+
+.toast-icon {
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-card.success .toast-icon { color: #10b981; }
+.toast-card.error .toast-icon { color: #f43f5e; }
+.toast-card.warning .toast-icon { color: #f59e0b; }
+.toast-card.info .toast-icon { color: #6366f1; }
+
+.toast-message {
+  flex: 1;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  transition: color 0.2s;
+}
+
+.toast-close:hover {
+  color: #1e293b;
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.05);
+  width: 100%;
+  transform-origin: left;
+  animation: toastProgress linear forwards;
+}
+
+@keyframes toastProgress {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+.toast-card.success .toast-progress { background: #10b981; }
+.toast-card.error .toast-progress { background: #f43f5e; }
+.toast-card.warning .toast-progress { background: #f59e0b; }
+.toast-card.info .toast-progress { background: #6366f1; }
+
+@media (max-width: 480px) {
+  .toast-container {
+    top: 20px;
+    left: 20px;
+    right: 20px;
+  }
+  
+  .toast-card {
+    min-width: 0;
+    width: 100%;
+    padding: 14px 18px;
+  }
+}

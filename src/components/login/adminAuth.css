@@ -1,0 +1,165 @@
+.admin-auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: radial-gradient(circle at top left, #1e293b, #0f172a);
+  font-family: 'Outfit', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-auth-page::before {
+  content: '';
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+  animation: bgRotate 20s linear infinite;
+  z-index: 0;
+}
+
+@keyframes bgRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.admin-auth-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  width: 100%;
+  max-width: 450px;
+  padding: 60px;
+  border-radius: 40px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  animation: cardFadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-header-box {
+  margin-bottom: 40px;
+}
+
+.admin-badge-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 25px;
+  font-size: 2.2rem;
+  color: white;
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+  animation: iconBounce 3s infinite ease-in-out;
+}
+
+@keyframes iconBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.admin-header-box h2 {
+  font-size: 2.4rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  letter-spacing: -1.5px;
+  color: white;
+}
+
+.admin-header-box p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.admin-form-group {
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.admin-form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.admin-input-premium {
+  width: 100%;
+  padding: 18px 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-input-premium:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  transform: scale(1.01);
+}
+
+.admin-submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 20px;
+  border-radius: 22px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 15px 30px rgba(99, 102, 241, 0.2);
+}
+
+.admin-submit-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.35);
+}
+
+.admin-footer-links {
+  margin-top: 40px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+}
+
+.admin-footer-links span {
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 800;
+  transition: color 0.3s;
+}
+
+.admin-footer-links span:hover {
+  color: var(--secondary);
+}
+
+@media (max-width: 480px) {
+  .admin-auth-card { padding: 40px 25px; border-radius: 30px; }
+  .admin-header-box h2 { font-size: 2rem; }
+  .admin-badge-icon { width: 70px; height: 70px; font-size: 2rem; }
+}
