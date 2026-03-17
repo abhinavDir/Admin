@@ -1,3 +1,5 @@
+// src/App.jsx
+
 import React, { useState } from "react";
 import {
   BrowserRouter as Router,
@@ -11,8 +13,10 @@ import { ToastProvider } from "./context/ToastContext";
 import "./App.css";
 
 /* ADMIN COMPONENTS */
+
 import AdminLogin from "./components/login/AdminLogin";
 import AdminSignup from "./components/login/AdminSignup";
+
 import AdminPanel from "./components/admin/AdminPanel";
 import ProductManager from "./components/admin/ProductManger";
 import AdminNav from "./components/admin/AdminNav";
@@ -21,6 +25,7 @@ import SalesReport from "./components/admin/SalesReport";
 import OrderHistory from "./components/admin/OrderHistory";
 
 /* ================= ADMIN PROTECTION ================= */
+
 const ProtectedAdmin = ({ admin, children }) => {
   if (!admin) return <Navigate to="/AdminLogin" replace />;
   return children;
@@ -30,12 +35,12 @@ function App() {
 
   const location = useLocation();
 
-  /* ✅ SINGLE CLEAN STATE */
+  /* ✅ FIX: SAFE STATE INIT (IMPORTANT) */
   const [admin, setAdmin] = useState(() => {
     return localStorage.getItem("isAdmin") === "true";
   });
 
-  /* ✅ NAV CONTROL */
+  /* SHOW ADMIN NAV */
   const showAdminNav =
     admin &&
     location.pathname !== "/AdminLogin" &&
@@ -47,7 +52,7 @@ function App() {
 
       <Routes>
 
-        {/* DEFAULT */}
+        {/* ✅ DEFAULT FIX */}
         <Route
           path="/"
           element={
@@ -57,7 +62,7 @@ function App() {
           }
         />
 
-        {/* LOGIN */}
+        {/* ✅ LOGIN FIX */}
         <Route
           path="/AdminLogin"
           element={
@@ -67,7 +72,7 @@ function App() {
           }
         />
 
-        {/* SIGNUP */}
+        {/* ✅ SIGNUP FIX */}
         <Route
           path="/AdminSignup"
           element={
@@ -77,7 +82,7 @@ function App() {
           }
         />
 
-        {/* ADMIN */}
+        {/* ADMIN DASHBOARD */}
         <Route
           path="/admin-panel"
           element={
@@ -87,6 +92,7 @@ function App() {
           }
         />
 
+        {/* INVENTORY */}
         <Route
           path="/admin-inventory"
           element={
@@ -96,6 +102,7 @@ function App() {
           }
         />
 
+        {/* PAYMENT */}
         <Route
           path="/admin-payment"
           element={
@@ -114,6 +121,7 @@ function App() {
           }
         />
 
+        {/* SALES */}
         <Route
           path="/sales"
           element={
@@ -123,7 +131,7 @@ function App() {
           }
         />
 
-        {/* ✅ CLEAN FALLBACK */}
+        {/* ✅ FALLBACK FIX */}
         <Route
           path="*"
           element={
@@ -138,7 +146,7 @@ function App() {
   );
 }
 
-/* ================= WRAPPER ================= */
+/* ================= ROUTER WRAPPER ================= */
 
 export default function AppWrapper() {
   return (
