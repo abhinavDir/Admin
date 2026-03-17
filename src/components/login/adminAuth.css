@@ -15,7 +15,7 @@
   position: absolute;
   width: 150%;
   height: 150%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
   animation: bgRotate 20s linear infinite;
   z-index: 0;
 }
@@ -26,9 +26,7 @@
 }
 
 .admin-auth-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
+  background: rgba(30, 41, 59, 0.95);
   width: 100%;
   max-width: 450px;
   padding: 60px;
@@ -61,7 +59,7 @@
   margin: 0 auto 25px;
   font-size: 2.2rem;
   color: white;
-  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 20px 40px rgba(245, 158, 11, 0.25);
   animation: iconBounce 3s infinite ease-in-out;
 }
 
@@ -117,7 +115,7 @@
   background: rgba(255, 255, 255, 0.08);
   border-color: var(--primary);
   outline: none;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.12);
   transform: scale(1.01);
 }
 
@@ -133,12 +131,12 @@
   cursor: pointer;
   margin-top: 20px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 15px 30px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 15px 30px rgba(245, 158, 11, 0.2);
 }
 
 .admin-submit-btn:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3);
 }
 
 .admin-footer-links {

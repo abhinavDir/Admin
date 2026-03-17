@@ -219,9 +219,9 @@ const SalesReport = () => {
 
   const CustomChartStyles = {
     textColor: "#94a3b8",
-    gridColor: "rgba(255,255,255,0.05)",
-    gradientStart: "#6366f1",
-    gradientEnd: "#a855f7"
+    gridColor: "rgba(0,0,0,0.03)",
+    gradientStart: "#f59e0b",
+    gradientEnd: "#fb923c"
   };
 
   return (

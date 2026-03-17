@@ -103,8 +103,8 @@ const PaymentSettings = () => {
 
       <div className="settings-grid">
         <div className="settings-card-premium">
-          <h3><FaQrcode style={{ color: '#6366f1' }} /> QR Protocol</h3>
-          <p style={{ color: '#94a3b8', marginBottom: '25px', fontSize: '0.9rem' }}>
+          <h3><FaQrcode style={{ color: 'var(--primary)' }} /> QR Protocol</h3>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '25px', fontSize: '0.9rem' }}>
             Upload your official UPI QR code for customer scan-to-pay verification.
           </p>
 
@@ -126,7 +126,7 @@ const PaymentSettings = () => {
               <>
                 <FaCloudUploadAlt className="upload-icon-pulse" />
                 <span style={{ fontWeight: 800 }}>Deploy QR Asset</span>
-                <span style={{ color: '#6366f1', fontSize: '0.8rem', marginTop: '10px' }}>JPG/PNG FORMATS ONLY</span>
+                <span style={{ color: 'var(--primary)', fontSize: '0.8rem', marginTop: '10px' }}>JPG/PNG FORMATS ONLY</span>
               </>
             )}
             <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
@@ -134,7 +134,7 @@ const PaymentSettings = () => {
         </div>
 
         <div className="settings-card-premium">
-          <h3><FaCreditCard style={{ color: '#a855f7' }} /> Digital gateway</h3>
+          <h3><FaCreditCard style={{ color: 'var(--secondary)' }} /> Digital gateway</h3>
           <form onSubmit={handleSave} className="input-terminal-group">
             <div style={{ marginBottom: '20px' }}>
               <label>UPI ID (OPTIONAL)</label>

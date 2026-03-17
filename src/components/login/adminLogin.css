@@ -18,14 +18,13 @@
   background-image: url('../../assets/sign.jpg'); /* your background image */
   background-size: cover;
   background-position: center;
-  filter: blur(4px);
   z-index: 0;
-  transition: filter 0.3s;
+  transition: opacity 0.3s;
 }
 
-/* Blur background more when form is focused */
+/* Clean look when form is focused */
 .admin-login-page:focus-within::before {
-  filter: blur(8px);
+  opacity: 0.9;
 }
 
 .admin-login-page h2 {
@@ -40,9 +39,10 @@
 
 .admin-login-page form,
 .admin-choice-panel {
-  background: rgba(255, 255, 255, 0.85);
+  background: #ffffff;
   padding: 25px;
   border-radius: 12px;
+  border: 1px solid var(--border-light);
   display: flex;
   flex-direction: column;
   gap: 15px;

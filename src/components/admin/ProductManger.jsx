@@ -28,6 +28,7 @@ import {
 } from "react-icons/fa";
 
 import { useToast } from "../../context/ToastContext";
+import "./ProductManager.css";
 
 function ProductManager() {
   const { showToast } = useToast();
@@ -240,10 +241,8 @@ function ProductManager() {
 
     <div className="product-manager-premium">
       <div className="pm-header">
-        <div>
-          <span className="pm-header-subtitle">Inventory Control Center</span>
-          <h2 className="premium-gradient-text">Canteen Inventory</h2>
-        </div>
+        <span className="pm-header-subtitle">Inventory Control Center</span>
+        <h2>Canteen Inventory</h2>
       </div>
 
       <div className="pm-form-container">
@@ -289,7 +288,7 @@ function ProductManager() {
             />
           </div>
 
-          <div className="form-group" style={{ gridColumn: 'span 2' }}>
+          <div className="form-group pm-form-full">
             <label><FaTags /> Category Selection</label>
             <select
               value={form.category}
@@ -302,7 +301,7 @@ function ProductManager() {
             </select>
           </div>
 
-          <div className="form-group" style={{ gridColumn: "span 2" }}>
+          <div className="form-group pm-form-full">
             <label><FaCloudUploadAlt /> Remote Image URL</label>
             <input
               placeholder="https://example.com/image.jpg"
@@ -336,16 +335,27 @@ function ProductManager() {
         </form>
       </div>
 
+      {products.length > 0 && (
+        <div className="pm-section-title">
+          <FaBoxes style={{ color: 'var(--primary)' }} />
+          <span>Menu Items ({products.length})</span>
+        </div>
+      )}
+
       <div className="pm-grid">
+        {products.length === 0 && (
+          <div className="pm-empty-state">No products yet — add your first item above.</div>
+        )}
         {products.map((p) => (
           <div key={p.id} className={`pm-card ${!p.isActive ? "disabled" : ""}`}>
             <div className="pm-card-img-wrapper">
               <img
-                src={p.image || "https://placehold.co/400x400/1e293b/white?text=No+Image"}
+                src={p.image || "https://placehold.co/400x250/f3f4f6/9ca3af?text=No+Image"}
                 alt={p.name}
                 className="pm-card-img"
               />
               <div className="pm-tag">{p.category}</div>
+              <div className={`pm-status-dot ${!p.isActive ? "inactive" : ""}`} />
             </div>
 
             <div className="pm-card-info">
@@ -361,7 +371,7 @@ function ProductManager() {
                 ) : (
                   <span className="pm-price">₹{p.originalPrice || p.price}</span>
                 )}
-                <span className="pm-qty">STOCK: {p.quantity}</span>
+                <span className="pm-qty">QTY: {p.quantity}</span>
               </div>
 
               <div className="pm-actions">
@@ -370,7 +380,7 @@ function ProductManager() {
                 </button>
 
                 <button
-                  className={`pm-btn pm-btn-toggle ${p.isActive ? "active" : ""}`}
+                  className={`pm-btn pm-btn-toggle ${!p.isActive ? "inactive-btn" : ""}`}
                   onClick={() => toggleActive(p)}
                   title={p.isActive ? "Deactivate" : "Activate"}
                 >

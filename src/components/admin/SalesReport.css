@@ -56,7 +56,7 @@
 .summary-stat-premium:hover {
   transform: translateY(-5px);
   border-color: var(--primary);
-  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 20px 40px rgba(245, 158, 11, 0.12);
 }
 
 .summary-stat-premium::after {
@@ -92,7 +92,7 @@
   color: var(--primary);
   font-weight: 700;
   font-size: 0.9rem;
-  background: rgba(99, 102, 241, 0.08);
+  background: #fef3c7;
   padding: 4px 10px;
   border-radius: 8px;
   display: inline-block;

@@ -34,12 +34,9 @@ const AdminPanel = () => {
     );
 
     const unsub = onSnapshot(q, (snap) => {
-
       const data = snap.docs
         .map((docItem) => {
-
           const d = docItem.data();
-
           return {
             id: docItem.id,
             ...d,
@@ -50,12 +47,19 @@ const AdminPanel = () => {
             mobile: d.mobile || "-",
             createdAt: d.createdAt || 0
           };
-
         })
-        .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+        .filter(o => 
+          o.status !== "Delivered" && 
+          o.status !== "Rejected" && 
+          o.status !== "Cancelled"
+        )
+        .sort((a, b) => {
+          const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (typeof a.createdAt === 'number' ? a.createdAt : 0);
+          const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (typeof b.createdAt === 'number' ? b.createdAt : 0);
+          return timeB - timeA;
+        });
 
       setOrders(data);
-
     });
 
     return () => unsub();
@@ -139,9 +143,16 @@ const AdminPanel = () => {
 
     <div className="admin-panel">
       <div className="admin-dash-header">
-        <h2 className="premium-gradient-text">
-          Incoming Orders
-        </h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <h2 className="premium-gradient-text">Incoming Orders</h2>
+          <button 
+            className="action-pill-btn" 
+            onClick={() => window.dispatchEvent(new CustomEvent("test-notification-trigger"))}
+            style={{ fontSize: '0.8rem', padding: '8px 16px' }}
+          >
+            🔔 Test Sound
+          </button>
+        </div>
 
         <div className="dashboard-stats-row">
           {stats.map((stat, i) => (
@@ -276,61 +287,82 @@ const AdminPanel = () => {
           <div key={o.id} className="order-card-premium">
             <div className="order-card-header">
               <div className="order-user-info">
-                <span className="order-id-tiny">#{o.id.slice(0, 8)}</span>
-                <span className="order-user-name">{o.userName}</span>
-                <span style={{fontSize: '0.8rem', color: 'var(--text-muted)'}}>{o.mobile}</span>
+                <div className="order-field">
+                  <span className="order-field-label">Entry ID</span>
+                  <span className="order-id-tiny">#{o.id.slice(0, 8)}</span>
+                </div>
+                <div className="order-field">
+                  <span className="order-field-label">Customer</span>
+                  <span className="order-user-name">{o.userName}</span>
+                </div>
+                <div className="order-field">
+                  <span className="order-field-label">Contact</span>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-main)' }}>{o.mobile}</span>
+                </div>
               </div>
-              <span className={getStatusClass(o.status)}>
-                {o.status}
-              </span>
+              <div className="order-status-wrapper">
+                <span className="order-field-label" style={{ textAlign: 'right', marginBottom: '4px' }}>Status</span>
+                <span className={getStatusClass(o.status)}>
+                  {o.status}
+                </span>
+              </div>
             </div>
 
-            <div className="order-items-scroll">
-              {o.items.map((i, idx) => (
-                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
-                  <span>{i.name} × {i.qty}</span>
-                  <strong>₹{(Number(i.discountedPrice ?? i.price) * (i.qty || 1))}</strong>
-                </div>
-              ))}
+            <div className="order-items-section">
+              <span className="order-field-label">Ordered Items</span>
+              <div className="order-items-scroll">
+                {o.items.map((i, idx) => (
+                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', padding: '4px 0' }}>
+                    <span style={{ color: 'var(--text-muted)' }}>{i.name} × {i.qty}</span>
+                    <strong style={{ color: 'var(--bg-dark)' }}>₹{(Number(i.discountedPrice ?? i.price) * (i.qty || 1))}</strong>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="order-card-footer">
-              <div className="order-total-price">₹{o.total}</div>
-              <div className="action-group-admin">
-                {(o.status === "Order Received" || o.status === "Pending") && (
-                  <>
-                    <button
-                      className="action-pill-btn"
-                      onClick={() => updateOrderStatus(o.id, "Preparing")}
-                    >
-                      <FaCheck />
-                    </button>
-                    <button
-                      className="action-pill-btn danger"
-                      onClick={() => updateOrderStatus(o.id, "Rejected")}
-                    >
-                      <FaTimes />
-                    </button>
-                  </>
-                )}
+              <div className="order-total-box">
+                <span className="order-field-label">Total Amount</span>
+                <div className="order-total-price">₹{o.total}</div>
+              </div>
+              <div className="order-actions-box">
+                <span className="order-field-label" style={{ textAlign: 'right', marginBottom: '8px' }}>Command</span>
+                <div className="action-group-admin">
+                  {(o.status === "Order Received" || o.status === "Pending") && (
+                    <>
+                      <button
+                        className="action-pill-btn"
+                        onClick={() => updateOrderStatus(o.id, "Preparing")}
+                      >
+                        <FaCheck />
+                      </button>
+                      <button
+                        className="action-pill-btn danger"
+                        onClick={() => updateOrderStatus(o.id, "Rejected")}
+                      >
+                        <FaTimes />
+                      </button>
+                    </>
+                  )}
 
-                {(o.status === "Preparing" || o.status === "Accepted") && (
-                  <button
-                    className="action-pill-btn wide"
-                    onClick={() => updateOrderStatus(o.id, "Out for Delivery")}
-                  >
-                    <FaTruck style={{ marginRight: '8px' }} /> Dispatch
-                  </button>
-                )}
+                  {(o.status === "Preparing" || o.status === "Accepted") && (
+                    <button
+                      className="action-pill-btn wide"
+                      onClick={() => updateOrderStatus(o.id, "Out for Delivery")}
+                    >
+                      <FaTruck style={{ marginRight: '8px' }} /> Dispatch
+                    </button>
+                  )}
 
-                {o.status === "Out for Delivery" && (
-                  <button
-                    className="action-pill-btn wide"
-                    onClick={() => updateOrderStatus(o.id, "Delivered")}
-                  >
-                    <FaCheck style={{ marginRight: '8px' }} /> Complete
-                  </button>
-                )}
+                  {o.status === "Out for Delivery" && (
+                    <button
+                      className="action-pill-btn wide"
+                      onClick={() => updateOrderStatus(o.id, "Delivered")}
+                    >
+                      <FaCheck style={{ marginRight: '8px' }} /> Complete
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>

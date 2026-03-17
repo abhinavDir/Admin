@@ -23,6 +23,8 @@ import AdminNav from "./components/admin/AdminNav";
 import PaymentSettings from "./components/admin/PaymentSettings";
 import SalesReport from "./components/admin/SalesReport";
 
+import OrderHistory from "./components/admin/OrderHistory";
+
 /* ================= ADMIN PROTECTION ================= */
 
 const ProtectedAdmin = ({ admin, children }) => {
@@ -105,6 +107,15 @@ function App() {
           }
         />
 
+        <Route
+          path="/admin-history"
+          element={
+            <ProtectedAdmin admin={admin}>
+              <OrderHistory />
+            </ProtectedAdmin>
+          }
+        />
+
         {/* SALES */}
 
         <Route
@@ -120,7 +131,7 @@ function App() {
 
         <Route
           path="*"
-          element={<Navigate to="/AdminLogin" />}
+          element={<Navigate to="/AdminLogin" replace />}
         />
 
       </Routes>

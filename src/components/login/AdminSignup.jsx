@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./adminAuth.css";
 import { FaUserPlus, FaLock, FaUser, FaEnvelope, FaPhone } from "react-icons/fa";
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 
 import { useToast } from "../../context/ToastContext";
@@ -44,6 +44,22 @@ function AdminSignup() {
     }
 
     try {
+      // 1. Check if username already exists
+      const qUser = query(collection(db, "admins"), where("username", "==", adminData.username.trim()));
+      const snapUser = await getDocs(qUser);
+      if (!snapUser.empty) {
+        showToast("Username already exists. Please choose another.", "error");
+        return;
+      }
+
+      // 2. Check if email already exists
+      const qEmail = query(collection(db, "admins"), where("email", "==", adminData.email.trim()));
+      const snapEmail = await getDocs(qEmail);
+      if (!snapEmail.empty) {
+        showToast("Email already registered. Try logging in.", "error");
+        return;
+      }
+
       await addDoc(collection(db, "admins"), {
         name: adminData.name,
         email: adminData.email,
