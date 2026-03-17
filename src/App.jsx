@@ -1,5 +1,3 @@
-// src/App.jsx
-
 import React, { useState } from "react";
 import {
   BrowserRouter as Router,
@@ -22,7 +20,6 @@ import ProductManager from "./components/admin/ProductManger";
 import AdminNav from "./components/admin/AdminNav";
 import PaymentSettings from "./components/admin/PaymentSettings";
 import SalesReport from "./components/admin/SalesReport";
-
 import OrderHistory from "./components/admin/OrderHistory";
 
 /* ================= ADMIN PROTECTION ================= */
@@ -36,46 +33,54 @@ function App() {
 
   const location = useLocation();
 
-  /* ADMIN STATE */
-
-  const [admin, setAdmin] = useState(
-    localStorage.getItem("isAdmin") === "true"
-  );
+  /* ✅ FIX: SAFE STATE INIT */
+  const [admin, setAdmin] = useState(() => {
+    return localStorage.getItem("isAdmin") === "true";
+  });
 
   /* SHOW ADMIN NAV */
-
   const showAdminNav =
+    admin &&
     location.pathname !== "/AdminLogin" &&
     location.pathname !== "/AdminSignup";
 
   return (
     <>
-
-      {showAdminNav && admin && (
-        <AdminNav setAdmin={setAdmin} />
-      )}
+      {showAdminNav && <AdminNav setAdmin={setAdmin} />}
 
       <Routes>
 
-        {/* LOGIN */}
-
+        {/* DEFAULT */}
         <Route
           path="/"
-          element={<Navigate to="/AdminLogin" />}
+          element={
+            admin
+              ? <Navigate to="/admin-panel" replace />
+              : <Navigate to="/AdminLogin" replace />
+          }
         />
 
+        {/* LOGIN */}
         <Route
           path="/AdminLogin"
-          element={<AdminLogin setAdmin={setAdmin} />}
+          element={
+            admin
+              ? <Navigate to="/admin-panel" replace />
+              : <AdminLogin setAdmin={setAdmin} />
+          }
         />
 
+        {/* SIGNUP */}
         <Route
           path="/AdminSignup"
-          element={<AdminSignup setAdmin={setAdmin} />}
+          element={
+            admin
+              ? <Navigate to="/admin-panel" replace />
+              : <AdminSignup setAdmin={setAdmin} />
+          }
         />
 
         {/* ADMIN DASHBOARD */}
-
         <Route
           path="/admin-panel"
           element={
@@ -86,7 +91,6 @@ function App() {
         />
 
         {/* INVENTORY */}
-
         <Route
           path="/admin-inventory"
           element={
@@ -97,7 +101,6 @@ function App() {
         />
 
         {/* PAYMENT */}
-
         <Route
           path="/admin-payment"
           element={
@@ -107,6 +110,7 @@ function App() {
           }
         />
 
+        {/* HISTORY */}
         <Route
           path="/admin-history"
           element={
@@ -117,7 +121,6 @@ function App() {
         />
 
         {/* SALES */}
-
         <Route
           path="/sales"
           element={
@@ -127,8 +130,8 @@ function App() {
           }
         />
 
-        {/* FALLBACK */}
-   <Route
+        {/* ✅ FIXED FALLBACK */}
+        <Route
           path="*"
           element={
             admin
@@ -138,7 +141,6 @@ function App() {
         />
 
       </Routes>
-
     </>
   );
 }
