@@ -128,10 +128,13 @@ function App() {
         />
 
         {/* FALLBACK */}
-
-        <Route
+   <Route
           path="*"
-          element={<Navigate to="/AdminLogin" replace />}
+          element={
+            admin
+              ? <Navigate to="/admin-panel" replace />
+              : <Navigate to="/AdminLogin" replace />
+          }
         />
 
       </Routes>
