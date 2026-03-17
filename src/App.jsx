@@ -11,10 +11,8 @@ import { ToastProvider } from "./context/ToastContext";
 import "./App.css";
 
 /* ADMIN COMPONENTS */
-
 import AdminLogin from "./components/login/AdminLogin";
 import AdminSignup from "./components/login/AdminSignup";
-
 import AdminPanel from "./components/admin/AdminPanel";
 import ProductManager from "./components/admin/ProductManger";
 import AdminNav from "./components/admin/AdminNav";
@@ -23,7 +21,6 @@ import SalesReport from "./components/admin/SalesReport";
 import OrderHistory from "./components/admin/OrderHistory";
 
 /* ================= ADMIN PROTECTION ================= */
-
 const ProtectedAdmin = ({ admin, children }) => {
   if (!admin) return <Navigate to="/AdminLogin" replace />;
   return children;
@@ -33,12 +30,12 @@ function App() {
 
   const location = useLocation();
 
-  /* ✅ FIX: SAFE STATE INIT */
+  /* ✅ SINGLE CLEAN STATE */
   const [admin, setAdmin] = useState(() => {
     return localStorage.getItem("isAdmin") === "true";
   });
 
-  /* SHOW ADMIN NAV */
+  /* ✅ NAV CONTROL */
   const showAdminNav =
     admin &&
     location.pathname !== "/AdminLogin" &&
@@ -80,7 +77,7 @@ function App() {
           }
         />
 
-        {/* ADMIN DASHBOARD */}
+        {/* ADMIN */}
         <Route
           path="/admin-panel"
           element={
@@ -90,7 +87,6 @@ function App() {
           }
         />
 
-        {/* INVENTORY */}
         <Route
           path="/admin-inventory"
           element={
@@ -100,7 +96,6 @@ function App() {
           }
         />
 
-        {/* PAYMENT */}
         <Route
           path="/admin-payment"
           element={
@@ -110,7 +105,6 @@ function App() {
           }
         />
 
-        {/* HISTORY */}
         <Route
           path="/admin-history"
           element={
@@ -120,7 +114,6 @@ function App() {
           }
         />
 
-        {/* SALES */}
         <Route
           path="/sales"
           element={
@@ -130,7 +123,7 @@ function App() {
           }
         />
 
-        {/* ✅ FIXED FALLBACK */}
+        {/* ✅ CLEAN FALLBACK */}
         <Route
           path="*"
           element={
@@ -145,7 +138,7 @@ function App() {
   );
 }
 
-/* ================= ROUTER WRAPPER ================= */
+/* ================= WRAPPER ================= */
 
 export default function AppWrapper() {
   return (
